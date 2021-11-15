@@ -1,25 +1,21 @@
 
 package servidor;
 
+import java.util.List;
+
 public class Dados {
 
-    private String time;
-    private String[][] states;
+    private List<Moeda> moeda;
 
-    public String getTime() {
-        return time;
+    @Override
+    public String toString() {
+        return moeda.toString();
     }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String[][] getStates() {
-        return states;
-    }
-
-    public void setStates(String[][] states) {
-        this.states = states;
+    
+    
+    
+    public Dados(List<Moeda> moeda) {
+        this.moeda = moeda;
     }
 
 }
