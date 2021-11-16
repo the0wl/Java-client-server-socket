@@ -14,38 +14,23 @@ public class Cliente {
     private static Socket clientSocket;
     private static PrintWriter out;
     private static BufferedReader in;
-    
-    public static void main(String[] args) {
-        String wComando;
-        Boolean wConectado = true;
+    private static Boolean wConectado = false;
         
-        try {
-            //clientSocket = new Socket("192.168.0.104", 8899);
-            clientSocket = new Socket("localhost", 8899);
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            
-            System.out.println("Conectado");
-                
-            while (wConectado) {
-                Scanner console = new Scanner(System.in);
-                wComando = console.nextLine();
-
-                if (wComando.equals("/exit")) 
-                    return;
-                
-                if (!wComando.substring(0, 1).equals("/")){
-                    System.out.println("Comando '"+wComando+"' não é válido.");
-                    continue;
-                }    
-                
-                System.out.println(sendMessage(wComando));
-            }
-            
-            stopConnection();
-        } catch (IOException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+    public static String Execute(String wComando){  
+        if (!wConectado){
+            return "É necessário criar a conexão antes de executar comandos.";
         }
+        
+        if (wComando.equals("/exit")) {
+            stopConnection();
+            return "";
+        }    
+                
+        if (!wComando.substring(0, 1).equals("/")){
+            return "Comando '"+wComando+"' não é válido.";
+        }    
+                
+        return sendMessage(wComando);
     }
     
     public static String sendMessage(String msg) {
@@ -55,17 +40,41 @@ public class Cliente {
             return resp;
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-            return "erro";
+            return "Erro ao processar comando '"+msg+"' :"+ ex;
         }
     }
+    
+    public static String createConnection(String host)  {
+        try{
+            clientSocket = new Socket("localhost", 8899);
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            System.out.println("Conectado");
+            wConectado = true;
+            return "Conexão criada com sucesso";
+        } catch (IOException ex){
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            return "Ocorreu um erro ao criar a conexão: "+ ex;
+        }
+    }  
+    
+    public static String createConnection() throws IOException{
+        return createConnection("localhost");
+    }  
 
-    public static void stopConnection() {
+    public static String stopConnection() {
+        if (!wConectado){
+            return "Conexão não está ativa.";
+        }
         try {
             in.close();
             out.close();
             clientSocket.close();
+            wConectado = false;
+            return "Conexão encerrada";
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            return "Ocorreu um erro ao encerrar a conexão: "+ex;
         }
     }
 }
