@@ -20,7 +20,8 @@ public class Cliente {
         Boolean wConectado = true;
         
         try {
-            clientSocket = new Socket("192.168.0.104", 8899);
+            //clientSocket = new Socket("192.168.0.104", 8899);
+            clientSocket = new Socket("localhost", 8899);
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             
@@ -30,10 +31,14 @@ public class Cliente {
                 Scanner console = new Scanner(System.in);
                 wComando = console.nextLine();
 
-                if (wComando.equals("/exit")) {
+                if (wComando.equals("/exit")) 
                     return;
-                };
-
+                
+                if (!wComando.substring(0, 1).equals("/")){
+                    System.out.println("Comando '"+wComando+"' não é válido.");
+                    continue;
+                }    
+                
                 System.out.println(sendMessage(wComando));
             }
             
