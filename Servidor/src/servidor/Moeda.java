@@ -30,9 +30,7 @@ public class Moeda {
 
     @Override
     public String toString() {
-        return "Moeda{" + "high=" + high + ", low=" + low + '}';
+        return "Cotação dolar USDBRL: code=" + code + ", codein=" + codein + ", name=" + name + ", high=" + high + ", low=" + low + ", varBid=" + varBid + ", pctChange=" + pctChange + ", bid=" + bid + ", ask=" + ask + ", timestamp=" + timestamp + ", create_date=" + create_date + '}';
     }
-    
-    
-    
+
 }

@@ -110,8 +110,10 @@ public class ConexaoDoCliente extends Thread {
                     while ((output = br.readLine()) != null) {
                             retorno+=output; // Neste While é adicionado todo o retorno da API dentro da variável 'retorno'
                     }
-
-                    Dados dados_retorno = gson.fromJson(retorno, Dados.class); //Pega o JSON que veio da API e coloca dentro da Classe que criei no começo;
+                    
+                    retorno = retorno.substring(10, retorno.length() - 1);
+                    
+                    Moeda dados_retorno = gson.fromJson(retorno, Moeda.class); //Pega o JSON que veio da API e coloca dentro da Classe que criei no começo;
 
                     System.out.println(dados_retorno.toString());
 
