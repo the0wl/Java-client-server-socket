@@ -62,7 +62,6 @@ public class ConexaoDoCliente extends Thread {
                     
                     out.println(macAddress);
                 }else if ("/sys".equals(inputLine)) {
-                    System.getProperties().list(System.out);
                     out.println("Name: " + System.getProperty("os.name") +
                                 ", Version: " +System.getProperty("os.version") +
                                 ", Arch: " + System.getProperty("os.arch"));
