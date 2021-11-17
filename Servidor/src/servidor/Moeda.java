@@ -32,5 +32,9 @@ public class Moeda {
     public String toString() {
         return "Cotação dolar USDBRL: code=" + code + ", codein=" + codein + ", name=" + name + ", high=" + high + ", low=" + low + ", varBid=" + varBid + ", pctChange=" + pctChange + ", bid=" + bid + ", ask=" + ask + ", timestamp=" + timestamp + ", create_date=" + create_date + '}';
     }
+    
+    public String getDolarDia() {
+        return "Dólar compra: "+bid+" e Dólar venda: "+ask;
+    }
 
 }

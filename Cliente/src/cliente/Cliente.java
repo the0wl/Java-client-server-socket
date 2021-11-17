@@ -70,6 +70,7 @@ public class Cliente {
             in.close();
             out.close();
             clientSocket.close();
+            System.out.println("Desconectado");
             wConectado = false;
             return "Conexão encerrada";
         } catch (IOException ex) {

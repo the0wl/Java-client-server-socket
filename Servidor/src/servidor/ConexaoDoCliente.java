@@ -36,26 +36,18 @@ public class ConexaoDoCliente extends Thread {
             while ((inputLine = in.readLine()) != null) {
                 if (".".equals(inputLine)) {
                     out.println("bye");
-                }
-                
-                if ("/quem".equals(inputLine)) {
+                } else if ("/quem".equals(inputLine)) {
                     InetAddress ip = InetAddress.getLocalHost();
                     String hostname = ip.getHostName();
                     out.println(hostname);
-                }
-                
-                if ("/data".equals(inputLine)) {
+                } else if ("/data".equals(inputLine)) {
                     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                     Date date = new Date();
                     out.println(dateFormat.format(date));
-                }
-                
-                if ("/ip".equals(inputLine)) {
+                }else if ("/ip".equals(inputLine)) {
                     InetAddress ip = InetAddress.getLocalHost();
                     out.println(ip);
-                }
-                
-                if ("/mac".equals(inputLine)) {
+                } else if ("/mac".equals(inputLine)) {
                     InetAddress ip = InetAddress.getLocalHost();
                     NetworkInterface ni = NetworkInterface.getByInetAddress(ip);
                     byte[] hardwareAddress = ni.getHardwareAddress();
@@ -67,20 +59,14 @@ public class ConexaoDoCliente extends Thread {
                     String macAddress = String.join("-", hexadecimal);
                     
                     out.println(macAddress);
-                }
-                
-                if ("/sys".equals(inputLine)) {
+                }else if ("/sys".equals(inputLine)) {
                     System.getProperties().list(System.out);
                     out.println("Name: " + System.getProperty("os.name") +
                                 ", Version: " +System.getProperty("os.version") +
                                 ", Arch: " + System.getProperty("os.arch"));
-                }
-                
-                if ("/dev".equals(inputLine)) {
+                }else if ("/dev".equals(inputLine)) {
                     out.println("Grupo 2");
-                }
-                
-                if ("/info".equals(inputLine)) {
+                }else if ("/info".equals(inputLine)) {
                     OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(
                     OperatingSystemMXBean.class);
 
@@ -88,9 +74,7 @@ public class ConexaoDoCliente extends Thread {
                     
                     out.println("CPU: " + String.format("%.2f", osBean.getCpuLoad()) + 
                                 ", Memoria: " + memoria);
-                }
-                
-                if ("/dolar".equals(inputLine)) {
+                }else if ("/dolar".equals(inputLine)) {
                     URL url = new URL("https://economia.awesomeapi.com.br/json/last/USD-BRL");
                     
                     Gson gson = new Gson();
@@ -118,6 +102,9 @@ public class ConexaoDoCliente extends Thread {
                     System.out.println(dados_retorno.toString());
 
                     conector.disconnect();
+                    out.println(dados_retorno.getDolarDia());
+                } else {
+                    out.println("Comando '"+inputLine+"' não implementado.");
                 }
             }
 

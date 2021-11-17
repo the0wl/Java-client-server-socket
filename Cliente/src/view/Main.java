@@ -37,6 +37,11 @@ public class Main extends javax.swing.JFrame {
         setResizable(false);
         setShape(getShape());
         setSize(new java.awt.Dimension(519, 205));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         pnComandos.setBorder(javax.swing.BorderFactory.createTitledBorder("Comandos"));
 
@@ -312,6 +317,10 @@ public class Main extends javax.swing.JFrame {
         String retorno = Cliente.Execute(comando);
         JOptionPane.showMessageDialog(null,retorno,"Personalizado", JOptionPane.INFORMATION_MESSAGE);        
     }//GEN-LAST:event_btPersonActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Cliente.stopConnection();
+    }//GEN-LAST:event_formWindowClosing
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
