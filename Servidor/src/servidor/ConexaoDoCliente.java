@@ -33,7 +33,7 @@ public class ConexaoDoCliente extends Thread {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             
             String inputLine;
-            while ((inputLine = in.readLine()) != null) {
+            while ((inputLine = in.readLine()) != null) { //Fica dentro de um while caso venha mais de uma requisição da mesma conexão
                 if (".".equals(inputLine)) {
                     out.println("bye");
                 } else if ("/quem".equals(inputLine)) {
@@ -84,7 +84,9 @@ public class ConexaoDoCliente extends Thread {
                     conector.setRequestMethod("GET");
 
                     if (conector.getResponseCode() != 200) { //Tratando um possível erro de conexão;
-                            System.out.print("ERROR... HTTP error code : " + conector.getResponseCode());
+                        System.out.print("ERROR... HTTP error code : " + conector.getResponseCode());
+                        out.println("ERROR... HTTP error code : " + conector.getResponseCode());
+                        continue;
                     }
 
                     BufferedReader br = new BufferedReader(new InputStreamReader((conector.getInputStream())));
@@ -97,7 +99,7 @@ public class ConexaoDoCliente extends Thread {
                     
                     retorno = retorno.substring(10, retorno.length() - 1);
                     
-                    Moeda dados_retorno = gson.fromJson(retorno, Moeda.class); //Pega o JSON que veio da API e coloca dentro da Classe que criei no começo;
+                    Moeda dados_retorno = gson.fromJson(retorno, Moeda.class); //Pega o JSON que veio da API e coloca dentro da Classe criada
 
                     System.out.println(dados_retorno.toString());
 

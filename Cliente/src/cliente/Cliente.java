@@ -46,7 +46,7 @@ public class Cliente {
     
     public static String createConnection(String host)  {
         try{
-            clientSocket = new Socket("localhost", 8899);
+            clientSocket = new Socket(host, 8899);
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             System.out.println("Conectado");

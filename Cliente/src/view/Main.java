@@ -252,7 +252,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btDesconectarActionPerformed
 
     private void btConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConectarActionPerformed
-        String retorno = Cliente.createConnection(edServidor.getText().toString());
+        String retorno = Cliente.createConnection(edServidor.getText());
         
         JOptionPane.showMessageDialog(null,retorno,"Conectar", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btConectarActionPerformed
@@ -323,10 +323,8 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Main().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Main().setVisible(true);
         });
     }
 
