@@ -15,7 +15,9 @@ import java.util.logging.Logger;
 import com.sun.management.OperatingSystemMXBean;
 import java.lang.management.ManagementFactory;
 import com.google.gson.Gson;
+import java.net.Authenticator;
 import java.net.HttpURLConnection;
+import java.net.PasswordAuthentication;
 import java.net.URL;
 
 public class ConexaoDoCliente extends Thread {
@@ -41,7 +43,7 @@ public class ConexaoDoCliente extends Thread {
                     String hostname = ip.getHostName();
                     out.println(hostname);
                 } else if ("/data".equals(inputLine)) {
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     Date date = new Date();
                     out.println(dateFormat.format(date));
                 }else if ("/ip".equals(inputLine)) {
@@ -105,6 +107,39 @@ public class ConexaoDoCliente extends Thread {
 
                     conector.disconnect();
                     out.println(dados_retorno.getDolarDia());
+                }else if ("/trends".equals(inputLine)) {
+                    URL url = new URL("https://api.twitter.com/1.1/trends/place.json?id=23424768");
+                    ClassAuthenticator obj1 =new ClassAuthenticator();  
+                    Authenticator.setDefault(new ClassAuthenticator());  
+                    Gson gson = new Gson();
+                    
+                    HttpURLConnection conector = (HttpURLConnection) url.openConnection();
+                    conector.setDoOutput(true);
+                    conector.setRequestMethod("GET");
+                    conector.setAuthenticator(obj1);
+
+                    if (conector.getResponseCode() != 200) { //Tratando um possível erro de conexão;
+                        System.out.print("ERROR... HTTP error code : " + conector.getResponseCode());
+                        out.println("ERROR... HTTP error code : " + conector.getResponseCode());
+                        continue;
+                    }
+
+                    BufferedReader br = new BufferedReader(new InputStreamReader((conector.getInputStream())));
+
+                    String output, retorno=""; 
+
+                    while ((output = br.readLine()) != null) {
+                            retorno+=output; // Neste While é adicionado todo o retorno da API dentro da variável 'retorno'
+                    }
+                    
+                    retorno = retorno.substring(10, retorno.length() - 1);
+                    
+                    Moeda dados_retorno = gson.fromJson(retorno, Moeda.class); //Pega o JSON que veio da API e coloca dentro da Classe criada
+
+                    System.out.println(dados_retorno.toString());
+
+                    conector.disconnect();
+                    out.println(dados_retorno.getDolarDia());
                 } else {
                     out.println("Comando '"+inputLine+"' não implementado.");
                 }
@@ -117,4 +152,13 @@ public class ConexaoDoCliente extends Thread {
             Logger.getLogger(ConexaoDoCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public static class ClassAuthenticator extends Authenticator    
+    {   
+        protected PasswordAuthentication getPasswordAuthentication()    
+        {   
+            String username = "javaTpoint";   
+            String password = "java";   
+            return new PasswordAuthentication(username, password.toCharArray());   
+        }   
+    } 
 }
