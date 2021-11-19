@@ -23,7 +23,7 @@ public class ConexaoDoCliente extends Thread {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             String inputLine = "";
             Funcoes f = new Funcoes();
-            
+           
             while ((inputLine = in.readLine()) != null) {
                 switch(inputLine) {
                     case "/quem": 
