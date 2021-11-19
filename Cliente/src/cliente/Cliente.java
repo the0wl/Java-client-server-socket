@@ -41,13 +41,13 @@ public class Cliente {
             return resp;
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-            return "Erro ao processar comando '"+msg+"' :"+ ex;
+            return "Erro ao processar comando '"+msg+"' :"+ ex+".";
         }
     }
     
     public static String createConnection(String host)  {
         try{
-            if (wConectado) return "O aplicativo já está conectado ao servidor";
+            if (wConectado) return "O aplicativo já está conectado ao servidor.";
             
             try{
                 clientSocket = new Socket(host, 8899);
@@ -59,10 +59,10 @@ public class Cliente {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             System.out.println("Conectado");
             wConectado = true;
-            return "Conexão criada com sucesso";
+            return "Conexão criada com sucesso.";
         } catch (IOException ex){
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-            return "Ocorreu um erro ao criar a conexão: "+ ex;
+            return "Ocorreu um erro ao criar a conexão: "+ ex+".";
         }
     }  
     
@@ -80,10 +80,10 @@ public class Cliente {
             clientSocket.close();
             System.out.println("Desconectado");
             wConectado = false;
-            return "Conexão encerrada";
+            return "Conexão encerrada.";
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-            return "Ocorreu um erro ao encerrar a conexão: "+ex;
+            return "Ocorreu um erro ao encerrar a conexão: "+ex+".";
         }
     }
 }

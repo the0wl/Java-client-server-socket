@@ -98,8 +98,8 @@ public class ConexaoDoCliente extends Thread {
                     conector.setRequestMethod("GET");
 
                     if (conector.getResponseCode() != 200) { //Tratando um possível erro de conexão;
-                        System.out.print("ERROR... HTTP error code : " + conector.getResponseCode());
-                        out.println("ERROR... HTTP error code : " + conector.getResponseCode());
+                        System.out.print("ERROR... HTTP error code : " + conector.getResponseCode()+".");
+                        out.println("ERROR... HTTP error code : " + conector.getResponseCode()+".");
                         continue;
                     }
 
@@ -127,8 +127,8 @@ public class ConexaoDoCliente extends Thread {
                     conector.setAuthenticator(obj1);
 
                     if (conector.getResponseCode() != 200) { //Tratando um possível erro de conexão;
-                        System.out.print("ERROR... HTTP error code : " + conector.getResponseCode());
-                        out.println("ERROR... HTTP error code : " + conector.getResponseCode());
+                        System.out.print("ERROR... HTTP error code : " + conector.getResponseCode()+".");
+                        out.println("ERROR... HTTP error code : " + conector.getResponseCode()+".");
                         continue;
                     }
 
