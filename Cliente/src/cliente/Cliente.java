@@ -37,6 +37,7 @@ public class Cliente {
         try {
             out.println(msg);
             String resp = in.readLine();
+            resp = resp.replace("¬", "\n");
             return resp;
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -46,7 +47,14 @@ public class Cliente {
     
     public static String createConnection(String host)  {
         try{
-            clientSocket = new Socket(host, 8899);
+            if (wConectado) return "O aplicativo já está conectado ao servidor";
+            
+            try{
+                clientSocket = new Socket(host, 8899);
+            } catch (UnknownHostException ex) {
+                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+                return "O servidor não pode ser encontrado";
+            }
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             System.out.println("Conectado");

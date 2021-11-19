@@ -19,6 +19,8 @@ import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
 import java.net.URL;
+import java.util.Collections;
+import java.util.Enumeration;
 
 public class ConexaoDoCliente extends Thread {
     private Socket clientSocket;
@@ -51,20 +53,31 @@ public class ConexaoDoCliente extends Thread {
                     out.println(ip);
                 } else if ("/mac".equals(inputLine)) {
                     InetAddress ip = InetAddress.getLocalHost();
-                    NetworkInterface ni = NetworkInterface.getByInetAddress(ip);
-                    byte[] hardwareAddress = ni.getHardwareAddress();
+                    Enumeration<NetworkInterface> ni = NetworkInterface.getNetworkInterfaces();
                     
-                    String[] hexadecimal = new String[hardwareAddress.length];
-                    for (int i = 0; i < hardwareAddress.length; i++) {
-                        hexadecimal[i] = String.format("%02X", hardwareAddress[i]);
+                    String interfaces = "";
+                    
+                    for (NetworkInterface netint : Collections.list(ni)) {
+                        byte[] hardwareAddress = netint.getHardwareAddress();
+                        String nome = netint.getDisplayName();
+                        String nomeeth = netint.getName();
+                        
+                        if (hardwareAddress == null) continue;
+                        
+                        String[] hexadecimal = new String[hardwareAddress.length];
+                        for (int i = 0; i < hardwareAddress.length; i++) {
+                            hexadecimal[i] = String.format("%02X", hardwareAddress[i]);
+                        }
+                        String macAddress = String.join("-", hexadecimal);
+                        
+                        interfaces += nome + "¬Interface: " + nomeeth + "¬MAC: " + macAddress + "¬¬¬";
                     }
-                    String macAddress = String.join("-", hexadecimal);
                     
-                    out.println(macAddress);
+                    out.println(interfaces);
                 }else if ("/sys".equals(inputLine)) {
                     out.println("Name: " + System.getProperty("os.name") +
-                                ", Version: " +System.getProperty("os.version") +
-                                ", Arch: " + System.getProperty("os.arch"));
+                                "¬Version: " +System.getProperty("os.version") +
+                                "¬Arch: " + System.getProperty("os.arch"));
                 }else if ("/dev".equals(inputLine)) {
                     out.println("Grupo 2");
                 }else if ("/info".equals(inputLine)) {
@@ -74,7 +87,7 @@ public class ConexaoDoCliente extends Thread {
                     float memoria = osBean.getTotalMemorySize() / 1024 / 1024 / 1024;
                     
                     out.println("CPU: " + String.format("%.2f", osBean.getCpuLoad()) + 
-                                ", Memoria: " + memoria);
+                                "¬Memoria: " + memoria);
                 }else if ("/dolar".equals(inputLine)) {
                     URL url = new URL("https://economia.awesomeapi.com.br/json/last/USD-BRL");
                     
@@ -99,11 +112,7 @@ public class ConexaoDoCliente extends Thread {
                     }
                     
                     retorno = retorno.substring(10, retorno.length() - 1);
-                    
                     Moeda dados_retorno = gson.fromJson(retorno, Moeda.class); //Pega o JSON que veio da API e coloca dentro da Classe criada
-
-                    System.out.println(dados_retorno.toString());
-
                     conector.disconnect();
                     out.println(dados_retorno.getDolarDia());
                 }else if ("/trends".equals(inputLine)) {

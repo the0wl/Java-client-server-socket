@@ -35,7 +35,7 @@ public class Moeda {
     
     // Retorno utilizado para cliente
     public String getDolarDia() {
-        return "Dólar compra: "+bid+" e Dólar venda: "+ask;
+        return "Dólar compra: "+bid+"¬Dólar venda: "+ask;
     }
 
 }
