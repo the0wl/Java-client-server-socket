@@ -97,12 +97,14 @@ public class Funcoes {
     }
     
     public String barraInfo() {
-        OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(
-        OperatingSystemMXBean.class);
+        OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
 
-        float memoria = osBean.getTotalMemorySize() / 1024 / 1024 / 1024;
-
-        return "CPU: " + String.format("%.2f", osBean.getCpuLoad()) + "¬Memoria: " + memoria;
+        float memoria = (float) osBean.getTotalMemorySize() / 1024 / 1024 / 1024;
+        float memorialivre = (float) osBean.getFreeMemorySize() / 1024 / 1024 / 1024;
+        
+        return "CPU: " + String.format("%.2f", osBean.getCpuLoad()*100)+"%" + 
+               "¬Memoria total: " + String.format("%.2f", memoria)+"GB" + 
+               "¬Memoria livre: " + String.format("%.2f", memorialivre)+"GB";
     }
     
     public String barraDolar() {
