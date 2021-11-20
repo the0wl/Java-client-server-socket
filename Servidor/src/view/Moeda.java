@@ -1,4 +1,4 @@
-package servidor;
+package view;
 
 public class Moeda {
 

@@ -1,18 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package servidor;
+package view;
 
 import com.google.gson.Gson;
 import com.sun.management.OperatingSystemMXBean;
+import java.awt.List;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
+import java.net.Inet4Address;
+import java.net.InterfaceAddress;
 import java.net.MalformedURLException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -20,16 +18,13 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Kelvin
- */
 public class Funcoes {
 
     public Funcoes() {
@@ -52,14 +47,31 @@ public class Funcoes {
         return dateFormat.format(date);
     }
     
-    public InetAddress barraIP() {
-        try {
-            return InetAddress.getLocalHost();
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(Funcoes.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public String barraIP() throws SocketException {
+        Enumeration<NetworkInterface> ni = NetworkInterface.getNetworkInterfaces();
+        String interfaces = "";
         
-        return null;
+        for (NetworkInterface netint : Collections.list(ni)) {
+            byte[] hardwareAddress = netint.getHardwareAddress();
+            if (hardwareAddress == null) continue;
+            
+            String nome = netint.getDisplayName();
+            String nomeeth = netint.getName();
+            
+            java.util.List<InterfaceAddress> ls = netint.getInterfaceAddresses();
+            String IPs = "";
+            for (InterfaceAddress l: ls){
+                String aux = l.getAddress().toString().substring(1);
+                
+                if (aux.contains("%"))
+                    aux = aux.substring(0,aux.indexOf("%"));
+                
+                IPs += " - "+aux+"¬";
+            }
+            
+            interfaces += nome + "¬Interface: " + nomeeth + "¬IP:¬" + IPs + "¬¬";
+        }
+        return interfaces;
     }
     
     public String barraMAC() {
@@ -70,12 +82,13 @@ public class Funcoes {
             
             for (NetworkInterface netint : Collections.list(ni)) {
                 byte[] hardwareAddress = netint.getHardwareAddress();
-                String nome = netint.getDisplayName();
-                String nomeeth = netint.getName();
-                
                 if (hardwareAddress == null) continue;
                 
+                String nome = netint.getDisplayName();
+                String nomeeth = netint.getName();
+                                
                 String[] hexadecimal = new String[hardwareAddress.length];
+                
                 for (int i = 0; i < hardwareAddress.length; i++) {
                     hexadecimal[i] = String.format("%02X", hardwareAddress[i]);
                 }
@@ -103,8 +116,8 @@ public class Funcoes {
         float memorialivre = (float) osBean.getFreeMemorySize() / 1024 / 1024 / 1024;
         
         return "CPU: " + String.format("%.2f", osBean.getCpuLoad()*100)+"%" + 
-               "¬Memoria total: " + String.format("%.2f", memoria)+"GB" + 
-               "¬Memoria livre: " + String.format("%.2f", memorialivre)+"GB";
+               "¬Memoria total: " + String.format("%.2f", memoria)+" GB" + 
+               "¬Memoria livre: " + String.format("%.2f", memorialivre)+" GB";
     }
     
     public String barraDolar() {
