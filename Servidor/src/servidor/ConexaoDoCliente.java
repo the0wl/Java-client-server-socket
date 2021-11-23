@@ -44,7 +44,7 @@ public class ConexaoDoCliente extends Thread {
                     case "/dolar":
                         out.println(f.barraDolar()); break;
                     case "/trends": 
-                        out.println("Em construção"); break;
+                        out.println(f.barraTrends()); break;
                     default:
                         out.println("Comando '"+inputLine+"' não implementado."); break;
                 }                

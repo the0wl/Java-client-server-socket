@@ -23,3 +23,6 @@
 hs_err_pid*
 /Servidor/dist/
 /Cliente/dist/
+Cliente/nbproject/private/private.properties
+Servidor/nbproject/private/private.properties
+Servidor/nbproject/private/private.xml

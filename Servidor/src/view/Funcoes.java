@@ -2,14 +2,12 @@ package view;
 
 import com.google.gson.Gson;
 import com.sun.management.OperatingSystemMXBean;
-import java.awt.List;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
-import java.net.Inet4Address;
 import java.net.InterfaceAddress;
 import java.net.MalformedURLException;
 import java.net.NetworkInterface;
@@ -18,10 +16,10 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -147,6 +145,30 @@ public class Funcoes {
             return dados_retorno.getDolarDia();
         } catch (MalformedURLException ex) {
             Logger.getLogger(Funcoes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Funcoes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return "";
+    }
+    
+    public String barraTrends() {
+        try {
+            String teste = "WhatsApp Web, Gmail, Correios, Outlook, Bradesco, Caixa, Vitoria, Detran-SP, Guarani, Santander, Itau, Champions League, Banco do Brasil, Receita Federal, Poupatempo, INSS, Vivo, MEI, BB, Enel";
+            
+            ProcessBuilder processBuilder = new ProcessBuilder("python", "../servidor/pytrends.py");
+            processBuilder.redirectErrorStream(true);
+            
+            Process process = processBuilder.start();
+            
+            try (BufferedReader input = 
+                    new BufferedReader(new 
+                              InputStreamReader(process.getInputStream()))) { 
+                String line; 
+                while ((line = input.readLine()) != null) { 
+                    System.out.println(line); 
+                } 
+            } 
         } catch (IOException ex) {
             Logger.getLogger(Funcoes.class.getName()).log(Level.SEVERE, null, ex);
         }
