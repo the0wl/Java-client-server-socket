@@ -50,7 +50,13 @@ public class Cliente {
             if (wConectado) return "O aplicativo já está conectado ao servidor.";
             
             try{
-                clientSocket = new Socket(host, 8899);
+                int port = 8899;
+                if (host.contains(":")){
+                    port = Integer.parseInt(host.split(":")[1]);
+                    host = host.split(":")[0];
+                }
+                
+                clientSocket = new Socket(host, port);
             } catch (UnknownHostException ex) {
                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
                 return "O servidor não pode ser encontrado";
