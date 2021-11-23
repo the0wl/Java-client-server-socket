@@ -154,9 +154,7 @@ public class Funcoes {
     
     public String barraTrends() {
         try {
-            String teste = "WhatsApp Web, Gmail, Correios, Outlook, Bradesco, Caixa, Vitoria, Detran-SP, Guarani, Santander, Itau, Champions League, Banco do Brasil, Receita Federal, Poupatempo, INSS, Vivo, MEI, BB, Enel";
-            
-            ProcessBuilder processBuilder = new ProcessBuilder("python", "../servidor/pytrends.py");
+            ProcessBuilder processBuilder = new ProcessBuilder("python", "../servidor/google_tops.py");
             processBuilder.redirectErrorStream(true);
             
             Process process = processBuilder.start();
@@ -165,9 +163,11 @@ public class Funcoes {
                     new BufferedReader(new 
                               InputStreamReader(process.getInputStream()))) { 
                 String line; 
+                String resultado = "";
                 while ((line = input.readLine()) != null) { 
-                    System.out.println(line); 
+                    resultado += line;
                 } 
+                return resultado;
             } 
         } catch (IOException ex) {
             Logger.getLogger(Funcoes.class.getName()).log(Level.SEVERE, null, ex);
