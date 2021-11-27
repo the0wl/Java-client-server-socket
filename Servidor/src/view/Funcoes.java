@@ -188,18 +188,14 @@ public class Funcoes {
                 while ((line = input.readLine()) != null) { 
                     resultado += line;
                 } 
-                System.out.println(resultado);
                 if (!resultado.contains("pytrends==")){
                     return "Para executar trends o servidor precisa possuir Pytrends instalado.¬"+
                            "Pode ser usado o comando 'pip install pytrends' no cmd.";
                 }
             } 
             
-            //processBuilder = new ProcessBuilder("python", "../servidor/google_tops.py");
-            String[] commands = new String[] {"python", "../servidor/google_tops.py", "-Dfile.encoding=UTF-8"};
-            processBuilder = new ProcessBuilder(commands);
+            processBuilder = new ProcessBuilder("python", "../servidor/google_tops.py");
             processBuilder.redirectErrorStream(true);
-            
             process = processBuilder.start();
             
             try (BufferedReader input = 
@@ -210,7 +206,8 @@ public class Funcoes {
                 while ((line = input.readLine()) != null) { 
                     resultado += line;
                 } 
-                return resultado.replace('^', '¬');
+                System.out.println(resultado.replace('^','\n'));
+                return resultado;
             } 
         } catch (IOException ex) {
             Logger.getLogger(Funcoes.class.getName()).log(Level.SEVERE, null, ex);
