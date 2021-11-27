@@ -29,6 +29,7 @@ public class Funcoes {
     public Funcoes() {
     }
     
+    /** Retorna o nome da máquina em que o servidor está sendo executado */
     public String barraQuem() {
         try {
             InetAddress ip = InetAddress.getLocalHost();
@@ -40,12 +41,16 @@ public class Funcoes {
         return "";
     }
     
+    /** Retorna a data da máquina em que o servidor está sendo executado. */
     public String barraData(){
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         return dateFormat.format(date);
     }
     
+    /** Retorna o IP da máquina em que o servidor está sendo executado
+     * Caso houver mais de uma interface, serão listadas todas.
+     */
     public String barraIP() throws SocketException {
         Enumeration<NetworkInterface> ni = NetworkInterface.getNetworkInterfaces();
         String interfaces = "";
@@ -73,6 +78,9 @@ public class Funcoes {
         return interfaces;
     }
     
+    /** Retorna o endereço MAC da máquina em que o servidor está sendo executado
+     * Caso houver mais de uma interface, serão listadas todas.
+     */
     public String barraMAC() {
         try {
             Enumeration<NetworkInterface> ni = NetworkInterface.getNetworkInterfaces();
@@ -104,6 +112,9 @@ public class Funcoes {
         return "";
     }
     
+    /** Retorna as informações de nome, versão e arquitetura do sistema operacional
+     * instalado na máquina em que o servidor está sendo executado.
+     */
     public String barraSYS() {
         return "Name: " + System.getProperty("os.name") + "¬Version: " +System.getProperty("os.version") + "¬Arch: " + System.getProperty("os.arch");
     }
@@ -119,6 +130,9 @@ public class Funcoes {
                "¬Memoria livre: " + String.format("%.2f", memorialivre)+" GB";
     }
     
+    /** Retorna as informações de preço de compra e venda da moeda Dolar.
+     * API: https://economia.awesomeapi.com.br/json/last/USD-BRL
+     */
     public String barraDolar() {
         try {
             URL url = new URL("https://economia.awesomeapi.com.br/json/last/USD-BRL");
@@ -153,6 +167,9 @@ public class Funcoes {
         return "";
     }
     
+    /** Retorna as informações de trend topics do motor de busca Google.
+     * Utiliza a api pytrends (google_tops.py) para a consulta de dados.
+     */
     public String barraTrends() {
         try {
             //Verificar se o python está instalado
@@ -194,6 +211,7 @@ public class Funcoes {
                 }
             } 
             
+            // Execução e envio dos resultados
             processBuilder = new ProcessBuilder("python", "../servidor/google_tops.py");
             processBuilder.redirectErrorStream(true);
             process = processBuilder.start();
