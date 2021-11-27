@@ -14,6 +14,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -154,7 +155,8 @@ public class Funcoes {
     
     public String barraTrends() {
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder("python", "../servidor/google_tops.py");
+            //Verificar se o python está instalado
+            ProcessBuilder processBuilder = new ProcessBuilder("python", "--version");
             processBuilder.redirectErrorStream(true);
             
             Process process = processBuilder.start();
@@ -167,13 +169,53 @@ public class Funcoes {
                 while ((line = input.readLine()) != null) { 
                     resultado += line;
                 } 
-                return resultado;
+                if (!resultado.contains("Python 3")){
+                    return "Para executar trends o servidor precisa possuir Python 3. instalado.";
+                }
+            } 
+            
+            // Verificar se o pytrends está instalado
+            processBuilder = new ProcessBuilder("pip", "freeze");
+            processBuilder.redirectErrorStream(true);
+            
+            process = processBuilder.start();
+            
+            try (BufferedReader input = 
+                    new BufferedReader(new 
+                              InputStreamReader(process.getInputStream()))) { 
+                String line; 
+                String resultado = "";
+                while ((line = input.readLine()) != null) { 
+                    resultado += line;
+                } 
+                System.out.println(resultado);
+                if (!resultado.contains("pytrends==")){
+                    return "Para executar trends o servidor precisa possuir Pytrends instalado.¬"+
+                           "Pode ser usado o comando 'pip install pytrends' no cmd.";
+                }
+            } 
+            
+            //processBuilder = new ProcessBuilder("python", "../servidor/google_tops.py");
+            String[] commands = new String[] {"python", "../servidor/google_tops.py", "-Dfile.encoding=UTF-8"};
+            processBuilder = new ProcessBuilder(commands);
+            processBuilder.redirectErrorStream(true);
+            
+            process = processBuilder.start();
+            
+            try (BufferedReader input = 
+                    new BufferedReader(new 
+                              InputStreamReader(process.getInputStream()))) { 
+                String line; 
+                String resultado = "";
+                while ((line = input.readLine()) != null) { 
+                    resultado += line;
+                } 
+                return resultado.replace('^', '¬');
             } 
         } catch (IOException ex) {
             Logger.getLogger(Funcoes.class.getName()).log(Level.SEVERE, null, ex);
+            return "Erro ao buscar trends: "+ex;
         }
-        
-        return "";
     }
     
     public String barraDev() {
