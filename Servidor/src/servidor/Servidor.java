@@ -13,6 +13,7 @@ public class Servidor {
         try {
             serverSocket = new ServerSocket(8899);
             
+            //Espera conexões na porta 8899
             while (true)
                 new ConexaoDoCliente(serverSocket.accept()).start();
         } catch (IOException ex) {

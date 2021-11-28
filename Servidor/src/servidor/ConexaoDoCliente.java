@@ -10,16 +10,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ConexaoDoCliente extends Thread {
-    private Socket clientSocket;
+    private final Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
     
     public ConexaoDoCliente(Socket socket) {
+        //Mostra no console o cliente que se conectou
         System.out.println("Conectado: "+socket.getInetAddress() +":"+ socket.getPort() + " na porta local " + socket.getLocalPort());
         this.clientSocket = socket;
     }
 
     //Recebe os comandos do cliente e envia para as funções específicas
+    @Override
     public void run() {
         try {
             out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -29,26 +31,16 @@ public class ConexaoDoCliente extends Thread {
            
             while ((inputLine = in.readLine()) != null) {
                 switch(inputLine) {
-                    case "/quem": 
-                        out.println(f.barraQuem()); break;
-                    case "/data":
-                        out.println(f.barraData()); break;
-                    case "/ip":
-                        out.println(f.barraIP()); break;
-                    case "/mac":
-                        out.println(f.barraMAC()); break;
-                    case "/sys":
-                        out.println(f.barraSYS()); break;
-                    case "/dev":
-                        out.println(f.barraDev()); break;
-                    case "/info":
-                        out.println(f.barraInfo()); break;
-                    case "/dolar":
-                        out.println(f.barraDolar()); break;
-                    case "/trends": 
-                        out.println(f.barraTrends()); break;
-                    default:
-                        out.println("Comando '"+inputLine+"' não implementado."); break;
+                    case "/quem" -> out.println(f.barraQuem());
+                    case "/data" -> out.println(f.barraData());
+                    case "/ip" -> out.println(f.barraIP());
+                    case "/mac" -> out.println(f.barraMAC());
+                    case "/sys" -> out.println(f.barraSYS());
+                    case "/dev" -> out.println(f.barraDev());
+                    case "/info" -> out.println(f.barraInfo());
+                    case "/dolar" -> out.println(f.barraDolar());
+                    case "/trends" -> out.println(f.barraTrends());
+                    default -> out.println("Comando '"+inputLine+"' não implementado.");
                 }                
             }
 
