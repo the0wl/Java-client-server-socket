@@ -1,4 +1,4 @@
-package view;
+package model;
 
 public class Moeda {
 
@@ -30,12 +30,24 @@ public class Moeda {
 
     @Override
     public String toString() {
-        return "Cotação dolar USDBRL: code=" + code + ", codein=" + codein + ", name=" + name + ", high=" + high + ", low=" + low + ", varBid=" + varBid + ", pctChange=" + pctChange + ", bid=" + bid + ", ask=" + ask + ", timestamp=" + timestamp + ", create_date=" + create_date + '}';
+        return "Cotação dolar USDBRL: "
+                + "code=" + code + ", "
+                + "codein=" + codein + ", "
+                + "name=" + name + ", "
+                + "high=" + high + ", "
+                + "low=" + low + ", "
+                + "varBid=" + varBid + ", "
+                + "pctChange=" + pctChange + ", "
+                + "bid=" + bid + ", "
+                + "ask=" + ask + ", "
+                + "timestamp=" + timestamp + ", "
+                + "create_date=" + create_date + '}';
     }
     
     // Retorno utilizado para cliente
     public String getDolarDia() {
-        return "Dólar compra: "+bid+"¬Dólar venda: "+ask;
+        return "Dólar compra: "+bid+"¬"
+             + "Dólar venda: "+ask;
     }
 
 }

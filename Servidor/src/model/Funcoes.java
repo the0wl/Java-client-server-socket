@@ -1,4 +1,4 @@
-package view;
+package model;
 
 import com.google.gson.Gson;
 import com.sun.management.OperatingSystemMXBean;
@@ -116,7 +116,9 @@ public class Funcoes {
      * instalado na máquina em que o servidor está sendo executado.
      */
     public String barraSYS() {
-        return "Name: " + System.getProperty("os.name") + "¬Version: " +System.getProperty("os.version") + "¬Arch: " + System.getProperty("os.arch");
+        return "Name: " + System.getProperty("os.name") + 
+              "¬Version: " +System.getProperty("os.version") + 
+              "¬Arch: " + System.getProperty("os.arch");
     }
     
     public String barraInfo() {
@@ -160,11 +162,11 @@ public class Funcoes {
             return dados_retorno.getDolarDia();
         } catch (MalformedURLException ex) {
             Logger.getLogger(Funcoes.class.getName()).log(Level.SEVERE, null, ex);
+            return "Erro ao buscar dólar: " + ex;
         } catch (IOException ex) {
             Logger.getLogger(Funcoes.class.getName()).log(Level.SEVERE, null, ex);
+            return "Erro ao buscar dólar: " + ex;            
         }
-        
-        return "";
     }
     
     /** Retorna as informações de trend topics do motor de busca Google.
@@ -224,7 +226,6 @@ public class Funcoes {
                 while ((line = input.readLine()) != null) { 
                     resultado += line;
                 } 
-                System.out.println(resultado.replace('^','\n'));
                 return resultado;
             } 
         } catch (IOException ex) {

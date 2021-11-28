@@ -1,6 +1,6 @@
 package servidor;
 
-import view.Funcoes;
+import model.Funcoes;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,11 +13,13 @@ public class ConexaoDoCliente extends Thread {
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
-
+    
     public ConexaoDoCliente(Socket socket) {
+        System.out.println("Conectado: "+socket.getInetAddress() +":"+ socket.getPort() + " na porta local " + socket.getLocalPort());
         this.clientSocket = socket;
     }
 
+    //Recebe os comandos do cliente e envia para as funções específicas
     public void run() {
         try {
             out = new PrintWriter(clientSocket.getOutputStream(), true);
