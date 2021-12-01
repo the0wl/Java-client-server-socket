@@ -30,7 +30,7 @@ public class Main extends javax.swing.JFrame {
         btDesconectar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Cliente sockts");
+        setTitle("Cliente sockets");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(getPreferredSize());
         setName("Main"); // NOI18N
